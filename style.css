@@ -9,15 +9,17 @@
     text-align: center;
 }
 
-.info {
-    padding-bottom: 15px;
+.header {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 5px;
 }
 
-.info h1 {
+.score {
     font-size: 25px;
 }
 
-.info h2 {
+.incorrect {
     font-size: 20px;
     display: none;
 }
