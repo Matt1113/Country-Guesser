@@ -1,15 +1,42 @@
-const countries = ["Armenia", "Cyprus", "Georgia", "Turkey", "Kosovo", "Albania", "Andorra", "Austria", 
-"Belgium", "Bulgaria", "Bosnia and Herzegovina", "Belarus", "Switzerland", "Czech Republic", "Germany", 
-"Denmark", "Estonia", "Finland", "United Kingdom", "Greece", "Croatia", "Hungary", "Ireland", "Iceland", 
-"Italy", "Liechtenstein", "Lithuania", "Luxembourg", "Latvia", "Moldova", "Macedonia", "Montenegro", 
-"Netherlands", "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Sweden", 
-"Ukraine", "France", "Spain"]
+const countryLists = {
+    europe : '/country lists/europe.js'
+}
+const svgMaps = {
+    europe : '/svg maps/europe.svg'
+}
 const countryElement = document.querySelector(".country")
 const incorrectElement = document.querySelector(".incorrect")
 const score = document.querySelector(".score")
-const numberOfCountries = countries.length
+let continentElement = document.querySelector(".continent")
+let mapElement = document.querySelector(".map")
+let countries
+let numberOfCountries
 let correctAnswers = 0
-let currentCountry = ""
+let currentCountry
+
+startGame()
+document.querySelector(".map").addEventListener('click', checkAnswer)
+document.querySelector(".continent").addEventListener('change', startGame)
+
+async function startGame(event) {
+    countries = await getCountryList()
+    numberOfCountries = countries.length
+    changeContinent()
+    displayRandomCountry()
+}
+
+async function getCountryList() {
+    let continent = continentElement.value
+    let countryListModule = await import(countryLists[continent])
+    return countryListModule.countries
+}
+
+async function changeContinent() {
+    let continent = continentElement.value
+    let svgResponse = await fetch(svgMaps[continent])
+    let svg = await svgResponse.text()
+    mapElement.innerHTML = svg
+}
 
 function displayRandomCountry() {
     let randomIndex = Math.floor(Math.random() * countries.length)
@@ -35,6 +62,3 @@ function updateAfterCorrectAnswer(event) {
     correctAnswers++
     displayRandomCountry()
 }
-
-document.querySelector(".map").addEventListener("click", checkAnswer)
-displayRandomCountry()
