@@ -1,8 +1,10 @@
 const countryLists = {
-    europe : '/country lists/europe.js'
+    europe : '/country lists/europe.js',
+    us : '/country lists/us.js'
 }
 const svgMaps = {
-    europe : '/svg maps/europe.svg'
+    europe : '/svg maps/europe.svg',
+    us : '/svg maps/us.svg'
 }
 const countryElement = document.querySelector(".country")
 const incorrectElement = document.querySelector(".incorrect")
@@ -11,7 +13,7 @@ let continentElement = document.querySelector(".continent")
 let mapElement = document.querySelector(".map")
 let countries
 let numberOfCountries
-let correctAnswers = 0
+let correctAnswers
 let currentCountry
 
 startGame()
@@ -19,6 +21,7 @@ document.querySelector(".map").addEventListener('click', checkAnswer)
 document.querySelector(".continent").addEventListener('change', startGame)
 
 async function startGame(event) {
+    correctAnswers = 0
     countries = await getCountryList()
     numberOfCountries = countries.length
     changeContinent()
@@ -28,7 +31,7 @@ async function startGame(event) {
 async function getCountryList() {
     let continent = continentElement.value
     let countryListModule = await import(countryLists[continent])
-    return countryListModule.countries
+    return [...countryListModule.countries]
 }
 
 async function changeContinent() {
@@ -48,6 +51,7 @@ function displayRandomCountry() {
 function checkAnswer(event) {
     if (event.target.tagName === 'path') {
         //correct country selected
+        console.log(event.target.getAttribute('name'))
         if (event.target.getAttribute('name') === currentCountry) {
             updateAfterCorrectAnswer(event)
         } else { //incorrect country selected
