@@ -1,12 +1,14 @@
 const countryLists = {
     europe : './country lists/europe.js',
     us : './country lists/us.js',
-    'south america' : './country lists/south america.js'
+    'south america' : './country lists/south america.js',
+    africa : './country lists/africa.js'
 }
 const svgMaps = {
     europe : './svg maps/europe.svg',
     us : './svg maps/us.svg',
-    'south america' : './svg maps/south america.svg'
+    'south america' : './svg maps/south america.svg',
+    africa : './svg maps/africa.svg'
 }
 const countryElement = document.querySelector(".country")
 const incorrectElement = document.querySelector(".incorrect")
